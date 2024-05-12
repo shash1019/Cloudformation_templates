@@ -59,14 +59,12 @@ Resources:
       KeyName: !Ref KeyName
       UserData:
         'Fn::Base64': 
-        # we need to use the sub incentric fucntion so that it would substitue the values int the {} with the sudo parameters.
+        # we need to use the sub incentric fucntion so that it would substitue the values int the 
           !Sub |
             #!/bin/bash -xe            
             # Ensure AWS CFN Bootstrap is the latest
-        # this line would install all the relavent helper functions which we can then use in the next line 
             yum install -y aws-cfn-bootstrap
-        # '/opt/aws/bin/cfn-init ' this is a helper function and we need to provide inputs for this function 
-        # inputs are : --stack ${AWS::StackName},--resource EC2Instance  , and --region ${AWS::Region}. Because we have use the sub incentric function at the start we, cloudformation will grab the details from the above 
+            # Install the files and packages from the metadata
             /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource EC2Instance  --region ${AWS::Region}
   MySecurityGroup:
     Type: AWS::EC2::SecurityGroup
